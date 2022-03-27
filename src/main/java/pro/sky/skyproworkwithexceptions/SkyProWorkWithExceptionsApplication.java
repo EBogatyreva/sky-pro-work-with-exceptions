@@ -5,9 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SkyProWorkWithExceptionsApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(SkyProWorkWithExceptionsApplication.class, args);
-	}
-
-}
+    public static void main(String[] args) {
+        SpringApplication.run(SkyProWorkWithExceptionsApplication.class, args);
+        }
+    }
