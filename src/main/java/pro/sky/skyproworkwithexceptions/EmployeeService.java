@@ -2,7 +2,6 @@ package pro.sky.skyproworkwithexceptions;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-
 @Service
 public class EmployeeService implements EmployeeServiceInterface {
     private Employee employee1 = new Employee();

@@ -1,7 +1,6 @@
 package pro.sky.skyproworkwithexceptions;
 
 public interface EmployeeInterface {
-
     String getFirstName();
 
     String getLastName();

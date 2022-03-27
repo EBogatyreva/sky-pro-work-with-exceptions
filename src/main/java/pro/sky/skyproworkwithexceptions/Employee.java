@@ -1,7 +1,6 @@
 package pro.sky.skyproworkwithexceptions;
 
 import java.util.Objects;
-
 public class Employee implements EmployeeInterface {
     private String firstName;
     private String LastName;
