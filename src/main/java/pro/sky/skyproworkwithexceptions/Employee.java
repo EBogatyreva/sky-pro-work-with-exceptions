@@ -1,6 +1,7 @@
 package pro.sky.skyproworkwithexceptions;
 
 import java.util.Objects;
+
 public class Employee implements EmployeeInterface {
     private String firstName;
     private String LastName;
@@ -42,10 +43,11 @@ public class Employee implements EmployeeInterface {
     }
 
     @Override
-    public int hashCode() {return Objects.hash(firstName, LastName);
+    public int hashCode() {
+        return Objects.hash(firstName, LastName);
     }
 
-/*    @Override
+    @Override
     public boolean equals(Employee employee) {
         if (this == employee) {
             return true;
@@ -53,5 +55,5 @@ public class Employee implements EmployeeInterface {
             return true;
         } else
             return false;
-    }*/
+    }
 }
