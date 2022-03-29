@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+    private Employee employee2;
 
     public Employee[] employees = {
             new Employee(
@@ -27,22 +28,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String addNewEmployee(String firstName, String lastName) throws OverFlowException {
+    public String addNewEmployee(String firstName, String lastName) throws OverFlowException, BadRequest {
         Employee employee1 = new Employee(firstName, lastName);
-        String a = " ";
+        String a = null;
         for (int i = 0; i < employees.length; i++) {
-            if (state(employees) == true) {
-                throw new OverFlowException();// 500 Internal Server Error массив переполнен
-            } else if ((employees[i] == null)) {
-                if (employees[i].equals(employee1)) {
-                    throw new BadRequest();
-                    //400 Bad Request.
-                }
-                employees[i].setFirstName(firstName);
-                employees[i].setLastName(lastName);
-                System.out.println("Добавлен новый сотрудник " + firstName + " " + lastName);
-                a = "Добавлен новый сотрудник " + firstName + "" + lastName;
+            if (state(employees) == false) {
+                if ((employees[i] == null) && (employees[i].equals(employee1) == false)) {
+                    employees[i].setFirstName(firstName);
+                    employees[i].setLastName(lastName);
+                    a = "Добавлен новый сотрудник " + firstName + "" + lastName;
+                    break;
+                } else a = null;
+            } else if (state(employees)) {
+                throw new OverFlowException();
             }
+        }
+
+        if (a == null) {
+            throw new BadRequest();        //400 Bad Request.
         }
         return a;
     }
@@ -50,54 +53,54 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public String delEmployee(String firstName, String lastName) throws NotFoundException {
         Employee employee1 = new Employee(firstName, lastName);
-        String a = "";
+        String a = null;
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i].equals(employee1) == false) {
-                throw new NotFoundException();// 404 Not Found.
-            } else if (employees[i].equals(employee1) == true) {
+            if ((employees[i] != null) && (employees[i].equals(employee1))) {
+                a = "Cотрудник " + employees[i].toString() + " удалён";
+                //почему конструкция a = "Cотрудник " + employee1.getfirstName + " удалён"; не работает?
+                //а только через employees[i].toString()?
                 employees[i].setFirstName(null);
                 employees[i].setLastName(null);
-                System.out.println("Cотрудник " + firstName + " " + lastName + " удалён");
-                a = "Cотрудник " + firstName + " " + lastName + " удалён";
-            } else a = "что-то пошло не так";
+            }
         }
+        if (a == null) {
+            throw new NotFoundException();
+        }// 404 Not Found.
         return a;
     }
 
     @Override
     public String findEmployee(String firstName, String lastName) throws NotFoundException {
         Employee employee1 = new Employee(firstName, lastName);
-        String a1 = "";
+        String a1 = null;
         for (int i = 0; i < employees.length; i++) {
-            if ((employees[i].getFirstName() != null) && (employees[i].getLastName() != null)) {
-                if (employees[i].equals(employee1) == false) {
-                    throw new NotFoundException();// 404 Not Found.
-                } else if (employees[i].equals(employee1) == true) {
-                    System.out.println("Cотрудник " + firstName + " " + lastName);
-                    a1 = "Cотрудник " + firstName + " " + lastName;
-                }
-            }
+            if ((employees[i] != null) && (employees[i].equals(employee1)))
+                a1 = employees[i].toString();
         }
+        if (a1 == null) {
+            throw new NotFoundException();
+        }// 404 Not Found.
         return a1;
     }
 
     @Override
-    public boolean equals(Employee employee) {
+    public boolean equals(Object obj) {
         boolean b = false;
+        Employee employee = (Employee) obj;
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i].getFirstName() == employee.getFirstName() && (employees[i].getLastName() == employee.getLastName()))
+            if (employees[i].equals(employee))
                 b = true;
         }
         return b;
     }
 
-    public static boolean state(Employee[] employee) {
-        boolean state = false;//если переполнен
+    public static boolean state(Employee[] employee) {//если переполнен
+        boolean state = false;
 
         for (int i = 0; i < employee.length; i++) {
-            if (employee[i] != null)
+            if (employee[i] != null) {
                 state = true;
-            else state = false;
+            } else state = false;
         }
         return state;
     }

@@ -10,6 +10,6 @@ public interface EmployeeService {
 
     String getDescriptionEmployee(int number);
 
-    boolean equals(Employee employee);
+    boolean equals(Object obj);
 
 }

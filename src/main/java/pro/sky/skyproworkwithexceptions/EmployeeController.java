@@ -26,13 +26,13 @@ public class EmployeeController {
     }
 
     @GetMapping("/remove")
-    public String remove(@RequestParam(required = true) String fisrstName, @RequestParam(required = true) String lastName) throws NotFoundException {
-        return "Удалить сотрудника: " + employeeService.delEmployee(fisrstName, lastName);
+    public String remove(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws NotFoundException {
+        return "Удалить сотрудника: " + employeeService.delEmployee(firstName, lastName);
     }
 
     @GetMapping("/find")
-    public String find(@RequestParam(required = true) String firstNane, @RequestParam(required = true) String lastName) throws NotFoundException {
-        return "Найти сотрудника: " + employeeService.findEmployee(firstNane, lastName);
+    public String find(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws NotFoundException {
+        return "Найти сотрудника: " + employeeService.findEmployee(firstName, lastName);
     }
 }
 
