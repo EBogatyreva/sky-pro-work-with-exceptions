@@ -31,22 +31,34 @@ public class EmployeeServiceImpl implements EmployeeService {
     public String addNewEmployee(String firstName, String lastName) throws OverFlowException, BadRequest {
         Employee employee1 = new Employee(firstName, lastName);
         String a = null;
-        for (int i = 0; i < employees.length; i++) {
-            if (state(employees) == false) {
-                if ((employees[i] == null) && (employees[i].equals(employee1) == false)) {
-                    employees[i].setFirstName(firstName);
-                    employees[i].setLastName(lastName);
-                    a = "Добавлен новый сотрудник " + firstName + "" + lastName;
+
+        if (state(employees) == true) {
+            throw new OverFlowException();
+        }
+
+        for (Employee employee : employees) {
+            if (employee != null) {
+                if (employee.equals(employee1) == true) {//if find employee
+                    a = null;
                     break;
-                } else a = null;
-            } else if (state(employees)) {
-                throw new OverFlowException();
+                } else a = "Можно добавить";
             }
         }
 
         if (a == null) {
             throw new BadRequest();        //400 Bad Request.
         }
+
+        if (state(employees) == false) {
+            for (int i = 0; i < employees.length; i++) {
+                if (employees[i] == null) {
+                    employees[i] = employee1;
+                    a = "Cотрудник " + employees[i].toString() + " добавлен";
+                    break;
+                }
+            }
+        }
+
         return a;
     }
 

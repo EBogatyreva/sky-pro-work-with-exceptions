@@ -21,7 +21,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public String add(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws BadRequest {
+    public String add(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws OverFlowException, BadRequest {
         return "Добавить нового сотрудника: " + employeeService.addNewEmployee(firstName, lastName);
     }
 
