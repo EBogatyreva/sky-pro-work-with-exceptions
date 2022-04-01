@@ -1,9 +1,17 @@
-package pro.sky.skyproworkwithexceptions;
+package pro.sky.skyproworkwithexceptions.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pro.sky.skyproworkwithexceptions.data.Employee;
+import pro.sky.skyproworkwithexceptions.exception.BadRequest;
+import pro.sky.skyproworkwithexceptions.exception.NotFoundException;
+import pro.sky.skyproworkwithexceptions.exception.OverFlowException;
+import pro.sky.skyproworkwithexceptions.service.impl.EmployeeServiceImpl;
+
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
@@ -34,5 +42,10 @@ public class EmployeeController {
     public String find(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws NotFoundException {
         return "Найти сотрудника: " + employeeService.findEmployee(firstName, lastName);
     }
-}
 
+    @GetMapping("/get")
+    public List<Employee> getEmployeeList(){
+        return employeeService.getEmployeeList();
+    }
+
+}
