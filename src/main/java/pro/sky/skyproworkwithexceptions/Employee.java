@@ -43,16 +43,18 @@ public class Employee implements EmployeeInterface {
     }
 
     @Override
-    public int hashCode() {return Objects.hash(firstName, LastName);
+    public int hashCode() {
+        return Objects.hash(firstName, LastName);
     }
 
-/*    @Override
-    public boolean equals(Employee employee) {
+    @Override
+    public boolean equals(Object obj) {
+        Employee employee = (Employee) obj;
         if (this == employee) {
             return true;
-        } else if ((this.LastName == employee.getFirstName()) && (this.LastName == employee.getLastName())) {
+        } else if ((this.firstName.equals(employee.getFirstName())) && (this.LastName.equals(employee.getLastName()))) {
             return true;
         } else
             return false;
-    }*/
+    }
 }

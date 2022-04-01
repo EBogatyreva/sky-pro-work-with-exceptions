@@ -1,7 +1,6 @@
 package pro.sky.skyproworkwithexceptions;
 
 public interface EmployeeInterface {
-
     String getFirstName();
 
     String getLastName();
@@ -10,5 +9,5 @@ public interface EmployeeInterface {
 
     String setLastName(String lastName);
 
-    //boolean equals(Employee employee);
+    boolean equals(Object obj);
 }
