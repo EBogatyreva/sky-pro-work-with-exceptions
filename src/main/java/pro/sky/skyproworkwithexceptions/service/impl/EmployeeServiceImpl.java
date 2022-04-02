@@ -1,12 +1,19 @@
-package pro.sky.skyproworkwithexceptions;
+package pro.sky.skyproworkwithexceptions.service.impl;
 
 import org.springframework.stereotype.Service;
+import pro.sky.skyproworkwithexceptions.exception.BadRequest;
+import pro.sky.skyproworkwithexceptions.exception.NotFoundException;
+import pro.sky.skyproworkwithexceptions.exception.OverFlowException;
+import pro.sky.skyproworkwithexceptions.data.Employee;
+import pro.sky.skyproworkwithexceptions.service.EmployeeService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private Employee employee2;
 
-    public Employee[] employees = {
+    List<Employee> employees = new ArrayList<>(List.of(
             new Employee(
                     "Иван", "Иванов"),
             new Employee(
@@ -14,27 +21,21 @@ public class EmployeeServiceImpl implements EmployeeService {
             new Employee(
                     "Анна", "Миронова"),
             new Employee(
-                    "Сергей", "Васильев"),
-            null,
-            null,
-            null,
-            null,
-            null,
-            null};
+                    "Сергей", "Васильев")));
 
     @Override
     public String getDescriptionEmployee(int number) {
-        return "{" + employees[number].getFirstName() + " " + employees[number].getLastName() + " }";
+        return "{" + employees.get(number).getFirstName() + " " + employees.get(number).getLastName() + " }";
+    }
+
+    public List<Employee> getEmployeeList() {
+        return employees;
     }
 
     @Override
-    public String addNewEmployee(String firstName, String lastName) throws OverFlowException, BadRequest {
+    public Employee addNewEmployee(String firstName, String lastName) throws OverFlowException, BadRequest {
         Employee employee1 = new Employee(firstName, lastName);
         String a = null;
-
-        if (state(employees) == true) {
-            throw new OverFlowException();
-        }
 
         for (Employee employee : employees) {
             if (employee != null) {
@@ -49,30 +50,23 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new BadRequest();        //400 Bad Request.
         }
 
-        if (state(employees) == false) {
-            for (int i = 0; i < employees.length; i++) {
-                if (employees[i] == null) {
-                    employees[i] = employee1;
-                    a = "Cотрудник " + employees[i].toString() + " добавлен";
-                    break;
-                }
-            }
-        }
+        employees.add(employee1);
+        a = "Cотрудник добавлен";
 
-        return a;
+        return employee1;
     }
 
     @Override
     public String delEmployee(String firstName, String lastName) throws NotFoundException {
         Employee employee1 = new Employee(firstName, lastName);
         String a = null;
-        for (int i = 0; i < employees.length; i++) {
-            if ((employees[i] != null) && (employees[i].equals(employee1))) {
-                a = "Cотрудник " + employees[i].toString() + " удалён";
+        for (int i = 0; i < employees.size(); i++) {
+            if ((employees.get(i) != null) && (employees.get(i).equals(employee1))) {
+                a = "Cотрудник " + employees.get(i).toString() + " удалён";
                 //почему конструкция a = "Cотрудник " + employee1.getfirstName + " удалён"; не работает?
                 //а только через employees[i].toString()?
-                employees[i].setFirstName(null);
-                employees[i].setLastName(null);
+                employees.get(i).setFirstName(null);
+                employees.get(i).setLastName(null);
             }
         }
         if (a == null) {
@@ -85,9 +79,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public String findEmployee(String firstName, String lastName) throws NotFoundException {
         Employee employee1 = new Employee(firstName, lastName);
         String a1 = null;
-        for (int i = 0; i < employees.length; i++) {
-            if ((employees[i] != null) && (employees[i].equals(employee1)))
-                a1 = employees[i].toString();
+        for (int i = 0; i < employees.size(); i++) {
+            if ((employees.get(i) != null) && (employees.get(i).equals(employee1)))
+                return employees.get(i).toString();
         }
         if (a1 == null) {
             throw new NotFoundException();
@@ -97,24 +91,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean equals(Object obj) {
-        boolean b = false;
+        boolean isEquals = false;
         Employee employee = (Employee) obj;
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i].equals(employee))
-                b = true;
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i).equals(employee))
+                isEquals = true;
         }
-        return b;
-    }
-
-    public static boolean state(Employee[] employee) {//если переполнен
-        boolean state = false;
-
-        for (int i = 0; i < employee.length; i++) {
-            if (employee[i] != null) {
-                state = true;
-            } else state = false;
-        }
-        return state;
+        return isEquals;
     }
 
 }
