@@ -12,7 +12,6 @@ import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private Employee employee2;
 
     List<Employee> employees = new ArrayList<>(List.of(
             new Employee(
@@ -34,7 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String addNewEmployee(String firstName, String lastName) throws OverFlowException, BadRequest {
+    public Employee addNewEmployee(String firstName, String lastName) throws OverFlowException, BadRequest {
         Employee employee1 = new Employee(firstName, lastName);
         String a = null;
 
@@ -54,7 +53,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employees.add(employee1);
         a = "Cотрудник добавлен";
 
-        return a;
+        return employee1;
     }
 
     @Override
@@ -82,7 +81,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         String a1 = null;
         for (int i = 0; i < employees.size(); i++) {
             if ((employees.get(i) != null) && (employees.get(i).equals(employee1)))
-                a1 = employees.get(i).toString();
+                return employees.get(i).toString();
         }
         if (a1 == null) {
             throw new NotFoundException();
@@ -92,13 +91,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean equals(Object obj) {
-        boolean b = false;
+        boolean isEquals = false;
         Employee employee = (Employee) obj;
         for (int i = 0; i < employees.size(); i++) {
             if (employees.get(i).equals(employee))
-                b = true;
+                isEquals = true;
         }
-        return b;
+        return isEquals;
     }
 
 }
