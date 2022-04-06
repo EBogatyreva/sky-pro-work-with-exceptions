@@ -5,20 +5,18 @@ import pro.sky.skyproworkwithexceptions.exception.BadRequest;
 import pro.sky.skyproworkwithexceptions.exception.NotFoundException;
 import pro.sky.skyproworkwithexceptions.exception.OverFlowException;
 
-
-import java.util.List;
+import java.util.Map;
 
 public interface EmployeeService {
-    List<Employee> getEmployeeList();
+    Map<Integer, Employee> getEmployeeList();
 
+    String addNewEmployee(Integer index, String firstName, String lastName) throws OverFlowException, BadRequest;
 
-    Employee addNewEmployee(String firstName, String lastName) throws OverFlowException, BadRequest;
+    String delEmployee(Integer index, String firstName, String lastName) throws NotFoundException;
 
-    String delEmployee(String firstName, String lastName) throws NotFoundException;
+    String findEmployee(Integer index, String firstName, String lastName) throws NotFoundException;
 
-    String findEmployee(String firstName, String lastName) throws NotFoundException;
-
-    String getDescriptionEmployee(int number);
+    String getDescriptionEmployee(Integer index) throws NotFoundException;
 
     boolean equals(Object obj);
 
