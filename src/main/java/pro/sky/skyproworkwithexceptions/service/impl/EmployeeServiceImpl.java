@@ -11,15 +11,21 @@ import java.util.Map;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+    private Integer index = 0;
+    private Map<Integer, Employee> employees;
 
-    Map<Integer, Employee> employees;
-
-    public EmployeeServiceImpl() {
+    private EmployeeServiceImpl() {
         this.employees = new HashMap<>();
-        employees.put(0, new Employee("Иван", "Иванов"));
-        employees.put(1, new Employee("Владимир", "Соколов"));
-        employees.put(2, new Employee("Анна", "Миронова"));
-        employees.put(3, new Employee("Сергей", "Васильев"));
+        employees.put(getIndex(), new Employee("Иван", "Иванов"));
+        employees.put(getIndex(), new Employee("Владимир", "Соколов"));
+        employees.put(getIndex(), new Employee("Анна", "Миронова"));
+        employees.put(getIndex(), new Employee("Сергей", "Васильев"));
+    }
+
+    private Integer getIndex() {
+        Integer result = index;
+        index = index + 1;
+        return result;
     }
 
     public Map<Integer, Employee> getEmployeeList() {
@@ -27,72 +33,47 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String getDescriptionEmployee(Integer index) {
-        if (employees.containsKey(index))
-            return "{" + employees.get(index).toString() + " }";
-        return "Не найден";
+    public String getDescriptionEmployee(String firstName, String lastName) {
+        Employee employee1 = new Employee(firstName, lastName);
+        if (employees.containsValue(employee1)) {
+            return "Сотрудник "+employee1;
+        } else return "Не найден";
     }
 
     @Override
-    public String addNewEmployee(Integer index, String firstName, String lastName) throws BadRequest {
+    public String addNewEmployee(String firstName, String lastName) throws BadRequest {
         Employee employee1 = new Employee(firstName, lastName);
-        String a = null;
-
-        if (employees.containsKey(index) == true) {//if find employee
-            a = null;
-        } else {
-            employees.put(index, employee1);
-            a = "Сотрудник добавлен";
-        }
-
-        if (a == null) {
+        if (employees.containsValue(employee1)) {//if find employee
             throw new BadRequest();
-            //400 Bad Request.
-        }
-
-        return employee1 + " " + a;
+        } else
+            employees.put(getIndex(), employee1);
+        return employee1 + " " + "Сотрудник добавлен";
     }
 
     @Override
-    public String delEmployee(Integer index, String firstName, String lastName) throws NotFoundException {
+    public String delEmployee(String firstName, String lastName) throws NotFoundException {
         Employee employee1 = new Employee(firstName, lastName);
-        String a = null;
-
-        if ((employees.containsKey(index)) && (employees.containsValue(employee1))) {
-            a = "Cотрудник " + employees.get(index).getFirstName() + " " + employees.get(index).getLastName() + " удалён";
-            employees.remove(index);
-        }
-
-        if (a == null) {
-            throw new NotFoundException();
-        }// 404 Not Found.
-        return a;
+        if (employees.containsValue(employee1)) {
+            employees.remove(employee1);
+            return "Cотрудник " + employee1 + " удалён";
+        } else if (!employees.containsValue(employee1))
+            return "Не найден";
+        throw new NotFoundException();
+        // 404 Not Found.
     }
 
     @Override//
-    public String findEmployee(Integer index, String firstName, String lastName) throws NotFoundException {
+    public String findEmployee(String firstName, String lastName) throws NotFoundException {
         Employee employee1 = new Employee(firstName, lastName);
-        String a1 = null;
 
-        if ((employees.containsKey(index)) && (employees.containsValue(employee1))) {
-            return employees.get(index).toString();
-        }
-
-        if (a1 == null) {
-            throw new NotFoundException();
-        }// 404 Not Found.
-        return a1;
+        if (employees.containsValue(employee1)) {
+            return "Сотрудник найден " + employee1;
+        } else if (!employees.containsValue(employee1))
+            return "Не найден";
+        throw new NotFoundException();
     }
-
     @Override
-    public boolean equals(Object obj) {
-        boolean isEquals = false;
-        Employee employee = (Employee) obj;
-        for (int i = 0; i < employees.size(); i++) {
-            if (employees.get(i).equals(employee))
-                isEquals = true;
-        }
-        return isEquals;
+    public String toString() {
+        return super.toString();
     }
-
 }

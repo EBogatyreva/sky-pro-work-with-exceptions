@@ -10,13 +10,13 @@ import java.util.Map;
 public interface EmployeeService {
     Map<Integer, Employee> getEmployeeList();
 
-    String addNewEmployee(Integer index, String firstName, String lastName) throws OverFlowException, BadRequest;
+    String addNewEmployee(String firstName, String lastName) throws OverFlowException, BadRequest;
 
-    String delEmployee(Integer index, String firstName, String lastName) throws NotFoundException;
+    String delEmployee(String firstName, String lastName) throws NotFoundException;
 
-    String findEmployee(Integer index, String firstName, String lastName) throws NotFoundException;
+    String findEmployee(String firstName, String lastName) throws NotFoundException;
 
-    String getDescriptionEmployee(Integer index) throws NotFoundException;
+    String getDescriptionEmployee(String firstName, String lastName) throws NotFoundException;
 
     boolean equals(Object obj);
 

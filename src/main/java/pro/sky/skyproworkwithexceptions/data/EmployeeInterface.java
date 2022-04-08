@@ -9,5 +9,5 @@ public interface EmployeeInterface {
 
     String setLastName(String lastName);
 
-    boolean equals(Object obj);
+    //boolean equals(Object obj);
 }

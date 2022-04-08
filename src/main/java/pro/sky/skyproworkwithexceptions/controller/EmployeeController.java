@@ -25,23 +25,23 @@ public class EmployeeController {
     }
 
     @GetMapping("/hello")
-    public String helloEmployee(int number) {
-        return "Hello! " + employeeService.getDescriptionEmployee(number);
+    public String helloEmployee(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) {
+        return "Hello! " + employeeService.getDescriptionEmployee(firstName, lastName);
     }
 
     @GetMapping("/add")
-    public String add(@RequestParam(required = true) int index, @RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws OverFlowException, BadRequest {
-        return "Добавить нового сотрудника: " + employeeService.addNewEmployee(index, firstName, lastName);
+    public String add(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws OverFlowException, BadRequest {
+        return "Добавить нового сотрудника: " + employeeService.addNewEmployee(firstName, lastName);
     }
 
     @GetMapping("/remove")
-    public String remove(@RequestParam(required = true) int index, @RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws NotFoundException {
-        return "Удалить сотрудника: " + employeeService.delEmployee(index, firstName, lastName);
+    public String remove(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws NotFoundException {
+        return "Удалить сотрудника: " + employeeService.delEmployee(firstName, lastName);
     }
 
     @GetMapping("/find")
-    public String find(@RequestParam(required = true) int index, @RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws NotFoundException {
-        return "Найти сотрудника: " + employeeService.findEmployee(index, firstName, lastName);
+    public String find(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws NotFoundException {
+        return "Найти сотрудника: " + employeeService.findEmployee(firstName, lastName);
     }
 
     @GetMapping("/get")
