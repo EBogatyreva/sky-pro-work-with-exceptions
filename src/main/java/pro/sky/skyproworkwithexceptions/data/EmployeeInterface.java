@@ -8,6 +8,4 @@ public interface EmployeeInterface {
     String setFirstName(String firstName);
 
     String setLastName(String lastName);
-
-    boolean equals(Object obj);
 }

@@ -12,6 +12,7 @@ import pro.sky.skyproworkwithexceptions.service.impl.EmployeeServiceImpl;
 
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/employee")
@@ -24,8 +25,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/hello")
-    public String helloEmployee(int number) {
-        return "Hello! " + employeeService.getDescriptionEmployee(number);
+    public String helloEmployee(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) {
+        return "Hello! " + employeeService.getDescriptionEmployee(firstName, lastName);
     }
 
     @GetMapping("/add")
@@ -44,7 +45,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/get")
-    public List<Employee> getEmployeeList(){
+    public Map<Integer, Employee> getEmployeeList() {
         return employeeService.getEmployeeList();
     }
 
