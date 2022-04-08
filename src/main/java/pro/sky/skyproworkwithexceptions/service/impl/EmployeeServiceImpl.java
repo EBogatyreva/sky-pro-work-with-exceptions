@@ -54,7 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public String delEmployee(String firstName, String lastName) throws NotFoundException {
         Employee employee1 = new Employee(firstName, lastName);
         if (employees.containsValue(employee1)) {
-            employees.remove(employee1);
+            employees.values().remove(employee1);
             return "Cотрудник " + employee1 + " удалён";
         } else if (!employees.containsValue(employee1))
             return "Не найден";
@@ -71,9 +71,5 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else if (!employees.containsValue(employee1))
             return "Не найден";
         throw new NotFoundException();
-    }
-    @Override
-    public String toString() {
-        return super.toString();
     }
 }

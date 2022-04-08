@@ -18,6 +18,4 @@ public interface EmployeeService {
 
     String getDescriptionEmployee(String firstName, String lastName) throws NotFoundException;
 
-    boolean equals(Object obj);
-
 }
