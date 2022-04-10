@@ -10,12 +10,12 @@ import pro.sky.skyproworkwithexceptions.exception.NotFoundException;
 import pro.sky.skyproworkwithexceptions.exception.OverFlowException;
 import pro.sky.skyproworkwithexceptions.service.impl.EmployeeServiceImpl;
 
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/departments")
 public class EmployeeController {
 
     private final EmployeeServiceImpl employeeService;
@@ -24,29 +24,45 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/hello")
-    public String helloEmployee(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) {
-        return "Hello! " + employeeService.getDescriptionEmployee(firstName, lastName);
+/*
+    @GetMapping("/max-salary")
+    public String maxSalary(@RequestParam(required = true) int department) {
+        return "" + employeeService.maxSalaryByOffice(department);
     }
 
-    @GetMapping("/add")
-    public String add(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws OverFlowException, BadRequest {
-        return "Добавить нового сотрудника: " + employeeService.addNewEmployee(firstName, lastName);
+    @GetMapping("/min-salary")
+    public String minSalary(@RequestParam(required = true) int department) {
+        return "" + employeeService.minSalaryByOffice(department);
+    }
+*/
+    @GetMapping("/all")
+    public String allEmployees() {
+        return "Всен сотрудники " + employeeService.getDescriptionEmployee();
     }
 
-    @GetMapping("/remove")
-    public String remove(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws NotFoundException {
-        return "Удалить сотрудника: " + employeeService.delEmployee(firstName, lastName);
-    }
-
-    @GetMapping("/find")
-    public String find(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws NotFoundException {
-        return "Найти сотрудника: " + employeeService.findEmployee(firstName, lastName);
-    }
 
     @GetMapping("/get")
     public Map<Integer, Employee> getEmployeeList() {
         return employeeService.getEmployeeList();
     }
 
+    @GetMapping("/all")
+    public String findEmployeeByOffice(@RequestParam(required = true) Integer office) {
+        return employeeService.findEmployeeByOffice(office).toString();
+    }
+
+    @GetMapping("/add")
+    public String add(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName, @RequestParam(required = true) int office, @RequestParam(required = true) int salary) throws OverFlowException, BadRequest {
+        return "Добавить нового сотрудника: " + employeeService.addNewEmployee(firstName, lastName, office, salary);
+    }
+
+    @GetMapping("/remove")
+    public String remove(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName, @RequestParam(required = true) int office, @RequestParam(required = true) int salary) throws NotFoundException {
+        return "Удалить сотрудника: " + employeeService.delEmployee(firstName, lastName, office, salary);
+    }
+
+    @GetMapping("/find")
+    public String find(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName, @RequestParam(required = true) int office, @RequestParam(required = true) int salary) throws NotFoundException {
+        return "Найти сотрудника: " + employeeService.findEmployee(firstName, lastName, office, salary);
+    }
 }
