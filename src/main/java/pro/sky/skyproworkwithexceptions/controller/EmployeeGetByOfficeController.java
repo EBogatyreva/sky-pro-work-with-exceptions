@@ -9,6 +9,7 @@ import pro.sky.skyproworkwithexceptions.exception.NotFoundException;
 import pro.sky.skyproworkwithexceptions.service.impl.EmployeeByOfficeServiceImpl;
 
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,7 +25,7 @@ public class EmployeeGetByOfficeController {
     }
 
     @GetMapping("/all")
-    public Map<Integer, Employee> findEmployeeByOffice(@RequestParam(required = true) Integer office) throws NotFoundException {
+    public Collection<Employee> findEmployeeByOffice(@RequestParam(required = true) Integer office) throws NotFoundException {
         return employeeService.findEmployeeByOffice(office);
     }
 

@@ -5,9 +5,8 @@ import pro.sky.skyproworkwithexceptions.data.Employee;
 import pro.sky.skyproworkwithexceptions.exception.NotFoundException;
 import pro.sky.skyproworkwithexceptions.service.EmployeeGetByOficce;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -36,14 +35,8 @@ public class EmployeeByOfficeServiceImpl implements EmployeeGetByOficce {
 
 
     @Override
-    public Map<Integer, Employee> findEmployeeByOffice(Integer office) throws NotFoundException {
-        List<Employee> result = new ArrayList<>();
-        List<Employee> r = employees.entrySet().stream()//без entrySet я не могу обратиться к потоку те к stream
-        //по другому тоже не строится)) вот с этого кстати все и началось))
-        employees.values().stream()
-                .filter(employee -> employee.getOffice() == office)
-                .map(employee -> result.)//упаковать в объект я тоже не могу))
-                .collect(Collectors.toList());
+    public Collection<Employee> findEmployeeByOffice(Integer office) throws NotFoundException {
+        return employees.values().stream().filter(employee -> employee.getOffice() == office).collect(Collectors.toList());
 
     }
 }
