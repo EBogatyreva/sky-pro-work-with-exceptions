@@ -31,22 +31,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Map<Integer, Employee> getEmployeeList() {
         return employees;
     }
-
-
-    /*    @Override
-        public String getDescriptionEmployee(String firstName, String lastName, int office, int salary) {
-            Employee employee1 = new Employee(firstName, lastName, office, salary);
-            if (employees.containsValue(employee1)) {
-                return "Сотрудник " + employee1;
-            } else return "Не найден";
-        }*/
-    @Override
-    public List<Map.Entry<Integer, Employee>> getDescriptionEmployee() {
-        return employees.entrySet().stream()
-                //.sorted().collect(Collectors.toList())
-                .sorted().collect(Collectors.toList());
-    }
-
     @Override
     public String addNewEmployee(String firstName, String lastName, int office, int salary) throws BadRequest {
         Employee employee1 = new Employee(firstName, lastName, office, salary);
@@ -77,19 +61,4 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else
             return "Сотрудник найден " + employee1;
     }
-
-    @Override
-    public List<Map.Entry<Integer, Employee>> findEmployeeByOffice(Integer office) throws NotFoundException {
-/*        List<Employee> findEmployeeByOffice = new ArrayList<>();
-        for (Employee employee : employees.values()) {
-            if (employee.getOffice() == office)
-                findEmployeeByOffice.add(employee);
-        }*/
-
-        return employees.entrySet().stream()
-                .filter(employee -> employee.getValue().getOffice() == office)
-                .collect(Collectors.toList());
-
-        // return findEmployeeByOffice;
-    }
-}
+       }

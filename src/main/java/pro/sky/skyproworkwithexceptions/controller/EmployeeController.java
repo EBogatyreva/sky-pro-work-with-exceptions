@@ -10,12 +10,10 @@ import pro.sky.skyproworkwithexceptions.exception.NotFoundException;
 import pro.sky.skyproworkwithexceptions.exception.OverFlowException;
 import pro.sky.skyproworkwithexceptions.service.impl.EmployeeServiceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/departments")
+@RequestMapping("/employee")
 public class EmployeeController {
 
     private final EmployeeServiceImpl employeeService;
@@ -24,31 +22,9 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-/*
-    @GetMapping("/max-salary")
-    public String maxSalary(@RequestParam(required = true) int department) {
-        return "" + employeeService.maxSalaryByOffice(department);
-    }
-
-    @GetMapping("/min-salary")
-    public String minSalary(@RequestParam(required = true) int department) {
-        return "" + employeeService.minSalaryByOffice(department);
-    }
-*/
-    @GetMapping("/all")
-    public String allEmployees() {
-        return "Всен сотрудники " + employeeService.getDescriptionEmployee();
-    }
-
-
     @GetMapping("/get")
     public Map<Integer, Employee> getEmployeeList() {
         return employeeService.getEmployeeList();
-    }
-
-    @GetMapping("/all")
-    public String findEmployeeByOffice(@RequestParam(required = true) Integer office) {
-        return employeeService.findEmployeeByOffice(office).toString();
     }
 
     @GetMapping("/add")
