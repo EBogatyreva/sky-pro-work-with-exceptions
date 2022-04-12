@@ -7,7 +7,6 @@ import pro.sky.skyproworkwithexceptions.data.Employee;
 import pro.sky.skyproworkwithexceptions.service.EmployeeService;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -28,9 +27,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return result;
     }
 
-    public Map<Integer, Employee> getEmployeeList() {
-        return employees;
+    public List<Employee> getEmployeeList() {
+        return (List<Employee>) employees;
     }
+
     @Override
     public String addNewEmployee(String firstName, String lastName, int office, int salary) throws BadRequest {
         Employee employee1 = new Employee(firstName, lastName, office, salary);

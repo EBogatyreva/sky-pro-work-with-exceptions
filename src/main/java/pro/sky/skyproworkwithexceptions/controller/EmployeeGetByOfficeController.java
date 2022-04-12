@@ -10,9 +10,6 @@ import pro.sky.skyproworkwithexceptions.service.impl.EmployeeByOfficeServiceImpl
 
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/departments")
@@ -24,25 +21,25 @@ public class EmployeeGetByOfficeController {
         this.employeeService = employeeService;
     }
 
+//работает, но ничего не выдает
     @GetMapping("/all")
     public Collection<Employee> findEmployeeByOffice(@RequestParam(required = true) Integer office) throws NotFoundException {
         return employeeService.findEmployeeByOffice(office);
     }
 
-    /*
-    @GetMapping("/max-salary")
-    public String maxSalary(@RequestParam(required = true) int department) {
-        return "" + employeeService.maxSalaryByOffice(department);
+     @GetMapping("/max-salary")
+    public String maxSalary(@RequestParam(required = true) int office) {
+        return "" + employeeService.max(office);
     }
 
     @GetMapping("/min-salary")
-    public String minSalary(@RequestParam(required = true) int department) {
-        return "" + employeeService.minSalaryByOffice(department);
+    public String minSalary(@RequestParam(required = true) int office) {
+        return "" + employeeService.min(office);
     }
-*/
-/*    @GetMapping("/all")
+//не работает совсем)
+    @GetMapping("/all")
     public String allEmployees() {
-        return "Все сотрудники " + employeeService.getDescriptionEmployee();
-    }*/
+        return "Все сотрудники " + employeeService.sortedEmployeeByOffice();
+    }
 
 }

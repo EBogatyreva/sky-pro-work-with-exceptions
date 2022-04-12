@@ -5,9 +5,7 @@ import pro.sky.skyproworkwithexceptions.data.Employee;
 import pro.sky.skyproworkwithexceptions.exception.NotFoundException;
 import pro.sky.skyproworkwithexceptions.service.EmployeeGetByOficce;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,10 +31,37 @@ public class EmployeeByOfficeServiceImpl implements EmployeeGetByOficce {
         return employees;
     }
 
-
     @Override
     public Collection<Employee> findEmployeeByOffice(Integer office) throws NotFoundException {
-        return employees.values().stream().filter(employee -> employee.getOffice() == office).collect(Collectors.toList());
+        return employees.values().stream()
+                .filter(employee -> employee.getOffice() == office)
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    public Collection<Employee> min(Integer office) throws NotFoundException {
+        List sortedList = (List) employees.values().stream()
+                .filter(employee -> employee.getOffice() == office)
+                .min(Comparator.comparingInt(employee -> employee.getSalary()))
+                .orElseThrow();
+        return sortedList;
+    }
+
+    @Override
+    public Collection<Employee> max(Integer office) throws NotFoundException {
+        List sortedList = (List) employees.values().stream()
+                .filter(employee -> employee.getOffice() == office)
+                .max(Comparator.comparingInt(employee -> employee.getSalary()))
+                .orElseThrow();
+        return sortedList;
+    }
+
+    @Override
+    public Collection<Employee> sortedEmployeeByOffice() {
+        List sortedList = employees.values().stream()
+                .sorted(Comparator.comparing(Employee::getOffice))
+                .collect(Collectors.toList());
+
+        return sortedList;
     }
 }

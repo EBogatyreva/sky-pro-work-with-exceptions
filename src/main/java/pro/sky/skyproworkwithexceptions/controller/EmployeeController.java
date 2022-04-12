@@ -24,7 +24,7 @@ public class EmployeeController {
 
     @GetMapping("/get")
     public Map<Integer, Employee> getEmployeeList() {
-        return employeeService.getEmployeeList();
+        return (Map<Integer, Employee>) employeeService.getEmployeeList();
     }
 
     @GetMapping("/add")
