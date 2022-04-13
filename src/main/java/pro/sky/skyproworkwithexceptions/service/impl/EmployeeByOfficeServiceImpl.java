@@ -40,20 +40,20 @@ public class EmployeeByOfficeServiceImpl implements EmployeeGetByOficce {
 
     @Override
     public Collection<Employee> min(Integer office) throws NotFoundException {
-        List sortedList = (List) employees.values().stream()
+        List min = (List) employees.values().stream()
                 .filter(employee -> employee.getOffice() == office)
                 .min(Comparator.comparingInt(employee -> employee.getSalary()))
-                .orElseThrow();
-        return sortedList;
+                .stream().collect(Collectors.toList());
+        return min;
     }
 
     @Override
     public Collection<Employee> max(Integer office) throws NotFoundException {
-        List sortedList = (List) employees.values().stream()
+        List max = (List) employees.values().stream()
                 .filter(employee -> employee.getOffice() == office)
                 .max(Comparator.comparingInt(employee -> employee.getSalary()))
-                .orElseThrow();
-        return sortedList;
+                .stream().collect(Collectors.toList());//почему надо обращаться к stream заново и потом только в toList??
+        return max;
     }
 
     @Override

@@ -21,8 +21,7 @@ public class EmployeeGetByOfficeController {
         this.employeeService = employeeService;
     }
 
-//работает, но ничего не выдает
-    @GetMapping("/all")
+    @GetMapping("/allByOffice")
     public Collection<Employee> findEmployeeByOffice(@RequestParam(required = true) Integer office) throws NotFoundException {
         return employeeService.findEmployeeByOffice(office);
     }
@@ -36,7 +35,7 @@ public class EmployeeGetByOfficeController {
     public String minSalary(@RequestParam(required = true) int office) {
         return "" + employeeService.min(office);
     }
-//не работает совсем)
+
     @GetMapping("/all")
     public String allEmployees() {
         return "Все сотрудники " + employeeService.sortedEmployeeByOffice();
