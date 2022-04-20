@@ -19,6 +19,13 @@ public class Employee implements EmployeeInterface {
 
     }
 
+    public Employee(String firstName, String lastName) {
+            this.firstName = firstName;
+            this.LastName = lastName;
+            getOffice();
+            getSalary();
+    }
+
     @Override
     public int setOffice(int office) {
         return this.office = office;

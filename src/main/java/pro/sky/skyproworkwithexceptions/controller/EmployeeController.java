@@ -1,5 +1,7 @@
 package pro.sky.skyproworkwithexceptions.controller;
 
+import org.apache.commons.lang3.StringUtils;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +31,14 @@ public class EmployeeController {
 
     @GetMapping("/add")
     public String add(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName, @RequestParam(required = true) int office, @RequestParam(required = true) int salary) throws OverFlowException, BadRequest {
-        return "Добавить нового сотрудника: " + employeeService.addNewEmployee(firstName, lastName, office, salary);
+        String s = firstName + "" + lastName;
+        if (StringUtils.isAlpha(s)) {
+            if (StringUtils.isAllLowerCase(s)) {
+                return employeeService.addNewEmployee(StringUtils.capitalize(firstName), StringUtils.capitalize(lastName), office, salary);
+            }
+        } else throw new BadRequest();
+
+        return employeeService.addNewEmployee(StringUtils.capitalize(firstName), StringUtils.capitalize(lastName), office, salary);
     }
 
     @GetMapping("/remove")
@@ -38,7 +47,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/find")
-    public String find(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName, @RequestParam(required = true) int office, @RequestParam(required = true) int salary) throws NotFoundException {
-        return "Найти сотрудника: " + employeeService.findEmployee(firstName, lastName, office, salary);
+    public String find(@RequestParam(required = true) String firstName, @RequestParam(required = true) String lastName) throws NotFoundException {
+        String s = firstName + "" + lastName;
+        if (StringUtils.isAlpha(s)) {
+            return "Найти сотрудника: " + employeeService.findEmployee(firstName, lastName);
+        } else {
+            throw new BadRequest();
+        }
     }
 }

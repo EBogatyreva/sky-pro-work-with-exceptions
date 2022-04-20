@@ -27,8 +27,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return result;
     }
 
-    public List<Employee> getEmployeeList() {
-        return (List<Employee>) employees;
+    public Map<Integer, Employee> getEmployeeList() {
+        return (Map<Integer, Employee>) employees;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new BadRequest();
         } else
             employees.put(getIndex(), employee1);
-        return employee1 + " " + "Сотрудник добавлен";
+        return "Сотрудник добавлен:" + " " + employee1;
     }
 
     @Override
@@ -53,12 +53,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String findEmployee(String firstName, String lastName, int office, int salary) throws NotFoundException {
-        Employee employee1 = new Employee(firstName, lastName, office, salary);
+    public String findEmployee(String firstName, String lastName) throws NotFoundException {
+        Employee employee1 = new Employee(firstName, lastName);
 
         if (!employees.containsValue(employee1)) {
             throw new NotFoundException();
-        } else
+        } else {
             return "Сотрудник найден " + employee1;
+        }
     }
-       }
+
+}
