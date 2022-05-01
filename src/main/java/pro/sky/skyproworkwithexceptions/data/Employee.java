@@ -7,7 +7,6 @@ public class Employee implements EmployeeInterface {
     private String LastName;
     private int office;
     private int salary;
-
     public Employee(String firstName, String lastName, int office, int salary) {
         this.firstName = firstName;
         this.LastName = lastName;
@@ -20,10 +19,8 @@ public class Employee implements EmployeeInterface {
     }
 
     public Employee(String firstName, String lastName) {
-            this.firstName = firstName;
-            this.LastName = lastName;
-            getOffice();
-            getSalary();
+        this.firstName = firstName;
+        this.LastName = lastName;
     }
 
     @Override
@@ -90,6 +87,6 @@ public class Employee implements EmployeeInterface {
                 (this.LastName.equals(employee.getLastName())) && (this.office == office) && (this.salary == salary)) {
             return true;
         } else
-        return false;
+            return false;
     }
 }

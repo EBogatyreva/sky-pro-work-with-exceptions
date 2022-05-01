@@ -10,6 +10,7 @@ import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+
     private Integer index = 0;
     private Map<Integer, Employee> employees;
 
@@ -27,8 +28,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return result;
     }
 
-    public Map<Integer, Employee> getEmployeeList() {
-        return (Map<Integer, Employee>) employees;
+    public List<Employee> getEmployeeList() {
+        return new ArrayList<>(employees.values());
     }
 
     @Override
@@ -59,8 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (!employees.containsValue(employee1)) {
             throw new NotFoundException();
         } else {
-            return "Сотрудник найден " + employee1;
+            return "Сотрудник найден " + employee1+employee1.getOffice()+employee1.getSalary();
         }
     }
-
 }
