@@ -26,7 +26,6 @@ public class EmployeeByOfficeServiceImpl implements EmployeeGetByOficce {
         index = index + 1;
         return result;
     }
-
     public Map<Integer, Employee> getEmployeeList() {
         return employees;
     }
