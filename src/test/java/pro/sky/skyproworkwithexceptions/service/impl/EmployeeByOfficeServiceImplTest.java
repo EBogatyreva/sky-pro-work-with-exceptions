@@ -7,10 +7,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import pro.sky.skyproworkwithexceptions.data.Employee;
 
-import java.util.Collection;
+import java.util.Comparator;
+
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+
 import static pro.sky.skyproworkwithexceptions.service.impl.EmployeeConstant.EMPLOYEES_MAP;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,30 +24,36 @@ class EmployeeByOfficeServiceImplTest {
 
     @Test
     void getEmployeeList() {
-        when(employeeByOfficeServiceMock.getEmployeeList())
-                .thenReturn(EMPLOYEES_MAP);
         assertEquals(EMPLOYEES_MAP, out.getEmployeeList());
     }
 
     @Test
     void findEmployeeByOffice() {
-        when(employeeByOfficeServiceMock.findEmployeeByOffice(1))
-                .thenReturn((Collection<Employee>) EMPLOYEES_MAP);
-        assertEquals(EMPLOYEES_MAP, out.findEmployeeByOffice(1));
+        assertEquals(EMPLOYEES_MAP.values().stream()
+                .filter(employee -> employee.getOffice() == 1)
+                .collect(Collectors.toList()), out.findEmployeeByOffice(1));
     }
 
     @Test
     void min() {
-        when(employeeByOfficeServiceMock.getEmployeeList())
-                .thenReturn(EMPLOYEES_MAP);
-        assertEquals(50_000, out.max(1));
-
+        assertEquals(EMPLOYEES_MAP.values().stream()
+                .filter(employee -> employee.getOffice() == 1)
+                .min(Comparator.comparingInt(employee -> employee.getSalary()))
+                .stream().collect(Collectors.toList()), out.min(1));
     }
 
     @Test
     void max() {
-        when(employeeByOfficeServiceMock.getEmployeeList())
-                .thenReturn(EMPLOYEES_MAP);
-        assertEquals(30_000, out.min(1));
+        assertEquals(EMPLOYEES_MAP.values().stream()
+                .filter(employee -> employee.getOffice() == 1)
+                .max(Comparator.comparingInt(employee -> employee.getSalary()))
+                .stream().collect(Collectors.toList()), out.max(1));
+    }
+
+    @Test
+    void sortedEmployeeByOffice() {
+        assertEquals(EMPLOYEES_MAP.values().stream()
+                .sorted(Comparator.comparing(Employee::getOffice))
+                .collect(Collectors.toList()), out.sortedEmployeeByOffice());
     }
 }
