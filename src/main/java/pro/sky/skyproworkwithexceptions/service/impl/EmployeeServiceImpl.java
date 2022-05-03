@@ -6,20 +6,20 @@ import pro.sky.skyproworkwithexceptions.exception.NotFoundException;
 import pro.sky.skyproworkwithexceptions.data.Employee;
 import pro.sky.skyproworkwithexceptions.service.EmployeeService;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+
     private Integer index = 0;
     private Map<Integer, Employee> employees;
 
-    private EmployeeServiceImpl() {
+    public EmployeeServiceImpl() {
         this.employees = new HashMap<>();
-        employees.put(getIndex(), new Employee("Иван", "Иванов"));
-        employees.put(getIndex(), new Employee("Владимир", "Соколов"));
-        employees.put(getIndex(), new Employee("Анна", "Миронова"));
-        employees.put(getIndex(), new Employee("Сергей", "Васильев"));
+        employees.put(getIndex(), new Employee("Иван", "Иванов", 1, 30_000));
+        employees.put(getIndex(), new Employee("Владимир", "Соколов", 1, 50_000));
+        employees.put(getIndex(), new Employee("Анна", "Миронова", 2, 70_000));
+        employees.put(getIndex(), new Employee("Сергей", "Васильев", 3, 100_000));
     }
 
     private Integer getIndex() {
@@ -28,48 +28,40 @@ public class EmployeeServiceImpl implements EmployeeService {
         return result;
     }
 
-    public Map<Integer, Employee> getEmployeeList() {
-        return employees;
+    public List<Employee> getEmployeeList() {
+        return new ArrayList<>(employees.values());
     }
 
     @Override
-    public String getDescriptionEmployee(String firstName, String lastName) {
-        Employee employee1 = new Employee(firstName, lastName);
+    public String addNewEmployee(String firstName, String lastName, int office, int salary) throws BadRequest {
+        Employee employee1 = new Employee(firstName, lastName, office, salary);
+
         if (employees.containsValue(employee1)) {
-            return "Сотрудник "+employee1;
-        } else return "Не найден";
-    }
-
-    @Override
-    public String addNewEmployee(String firstName, String lastName) throws BadRequest {
-        Employee employee1 = new Employee(firstName, lastName);
-        if (employees.containsValue(employee1)) {//if find employee
             throw new BadRequest();
         } else
             employees.put(getIndex(), employee1);
-        return employee1 + " " + "Сотрудник добавлен";
+        return "Сотрудник добавлен:" + " " + employee1;
     }
 
     @Override
-    public String delEmployee(String firstName, String lastName) throws NotFoundException {
-        Employee employee1 = new Employee(firstName, lastName);
-        if (employees.containsValue(employee1)) {
+    public String delEmployee(String firstName, String lastName, int office, int salary) throws NotFoundException {
+        Employee employee1 = new Employee(firstName, lastName, office, salary);
+        if (!employees.containsValue(employee1)) {
+            throw new NotFoundException();
+        } else
             employees.values().remove(employee1);
-            return "Cотрудник " + employee1 + " удалён";
-        } else if (!employees.containsValue(employee1))
-            return "Не найден";
-        throw new NotFoundException();
-        // 404 Not Found.
+        return "Cотрудник " + employee1 + " удалён";
     }
 
-    @Override//
+    @Override
     public String findEmployee(String firstName, String lastName) throws NotFoundException {
         Employee employee1 = new Employee(firstName, lastName);
 
-        if (employees.containsValue(employee1)) {
-            return "Сотрудник найден " + employee1;
-        } else if (!employees.containsValue(employee1))
-            return "Не найден";
-        throw new NotFoundException();
+        if (!employees.containsValue(employee1)) {
+            throw new NotFoundException();
+        } else {
+            return "Сотрудник найден " + employee1+employee1.getOffice()+employee1.getSalary();
+        }
     }
+
 }
